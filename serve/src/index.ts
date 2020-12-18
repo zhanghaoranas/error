@@ -1,16 +1,19 @@
-const Hapi = require('@hapi/hapi');
-const fs = require('fs');
+
+import * as Hapi from '@hapi/hapi';
+import * as fs from 'fs';
+import { connectionConfig } from './config/index'
+
 const init = async () => {
 
     const server = Hapi.server({
-        port: 3001,
-        host: 'localhost'
+        port: connectionConfig.port,
+        host: connectionConfig.host,
     });
 
     server.route({
         method: 'GET',
         path: '/error',
-        handler: (request, h) => {
+        handler: (request) => {
             const errorInfo = request.query.info;
             fs.appendFile('./log.json', errorInfo, function (err) {
                 if (err) {
